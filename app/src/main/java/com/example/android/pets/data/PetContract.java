@@ -8,11 +8,10 @@ public class PetContract {
     public static abstract class PetEntry implements BaseColumns {
         public static final String TABLE_NAME = "pets";
         public static final String _ID = BaseColumns._ID;
-        public static final String COLUMN_NAME = "price";
-        public static final String COLUMN_BREED = "style";
-        public static final String COLUMN_GENDER = "in_stock";
-        public static final String COLUMN_WEIGHT = "description";
-
+        public static final String COLUMN_PET_NAME = "name";
+        public static final String COLUMN_PET_BREED = "breed";
+        public static final String COLUMN_PET_GENDER = "gender";
+        public static final String COLUMN_PET_WEIGHT = "weight";
 
         public static final int GENDER_UNKNOWN = 0;
         public static final int GENDER_MALE = 1;

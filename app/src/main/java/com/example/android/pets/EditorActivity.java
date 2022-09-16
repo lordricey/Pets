@@ -73,7 +73,7 @@ public class EditorActivity extends AppCompatActivity {
                     if (selection.equals(getString(R.string.gender_male))) {
                         mGender = PetEntry.GENDER_MALE;
                     } else if (selection.equals(getString(R.string.gender_female))) {
-                        mGender = PetEntry.GENDER_MALE;
+                        mGender = PetEntry.GENDER_FEMALE;
                     } else {
                         mGender = PetEntry.GENDER_UNKNOWN;
                     }
