@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.android.pets.data.PetContract;
 import com.example.android.pets.data.PetContract.PetEntry;
 import com.example.android.pets.data.PetDbHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -58,8 +59,6 @@ public class CatalogActivity extends AppCompatActivity {
     private void displayDatabaseInfo() {
         PetDbHelper mDbHelper = new PetDbHelper(this);
 
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
         String[] projection = {
                 PetEntry._ID,
                 PetEntry.COLUMN_PET_NAME,
@@ -68,11 +67,9 @@ public class CatalogActivity extends AppCompatActivity {
                 PetEntry.COLUMN_PET_WEIGHT
         };
 
-        Cursor cursor = db.query(
-                PetEntry.TABLE_NAME,
+        Cursor cursor = getContentResolver().query(
+                PetEntry.CONTENT_URI,
                 projection,
-                null,
-                null,
                 null,
                 null,
                 null);
