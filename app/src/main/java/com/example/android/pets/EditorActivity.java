@@ -4,10 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 
 import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.android.pets.data.PetContract.PetEntry;
-import com.example.android.pets.data.PetDbHelper;
 
 public class EditorActivity extends AppCompatActivity {
 
@@ -94,9 +92,9 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void insertPet() {
-        String name = ((EditText) findViewById(R.id.edit_pet_name)).getText().toString().trim();
-        String breed = ((EditText) findViewById(R.id.edit_pet_breed)).getText().toString().trim();
-        String weight = ((EditText) findViewById(R.id.edit_pet_weight)).getText().toString().trim();
+        String name = mNameEditText.getText().toString().trim();
+        String breed = mBreedEditText.getText().toString().trim();
+        String weight = mWeightEditText.getText().toString().trim();
 
         String genderText = ((Spinner) findViewById(R.id.spinner_gender)).getSelectedItem().toString().trim();
         int gender = PetEntry.GENDER_UNKNOWN;
@@ -107,8 +105,7 @@ public class EditorActivity extends AppCompatActivity {
             gender = PetEntry.GENDER_FEMALE;
         }
 
-        PetDbHelper mDbHelper = new PetDbHelper(this);
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
 
         ContentValues values = new ContentValues();
 
@@ -117,12 +114,12 @@ public class EditorActivity extends AppCompatActivity {
         values.put(PetEntry.COLUMN_PET_GENDER, gender);
         values.put(PetEntry.COLUMN_PET_WEIGHT, weight);
 
-        long key = db.insert(PetEntry.TABLE_NAME, null,values);
+        Uri newUri = getContentResolver().insert(PetEntry.CONTENT_URI, values);
 
-        if (key == -1) {
+        if (newUri == null) {
             Toast.makeText(this, "Error saving pet", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Pet saved with row id: " + key, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Pet saved", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -5,17 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.android.pets.data.PetContract;
 import com.example.android.pets.data.PetContract.PetEntry;
-import com.example.android.pets.data.PetDbHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class CatalogActivity extends AppCompatActivity {
@@ -38,10 +35,6 @@ public class CatalogActivity extends AppCompatActivity {
     }
 
     private void insertPet() {
-        PetDbHelper mDbHelper = new PetDbHelper(this);
-
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
         ContentValues values = new ContentValues();
 
         values.put(PetEntry.COLUMN_PET_NAME, "Toto");
@@ -49,16 +42,12 @@ public class CatalogActivity extends AppCompatActivity {
         values.put(PetEntry.COLUMN_PET_GENDER, "Male");
         values.put(PetEntry.COLUMN_PET_WEIGHT, "7kg");
 
-        long newRowId = db.insert(PetEntry.TABLE_NAME, null, values);
-
-        Log.v("hi", String.valueOf(newRowId));
+        Uri newUri = getContentResolver().insert(PetEntry.CONTENT_URI, values);
 
         displayDatabaseInfo();
     }
 
     private void displayDatabaseInfo() {
-        PetDbHelper mDbHelper = new PetDbHelper(this);
-
         String[] projection = {
                 PetEntry._ID,
                 PetEntry.COLUMN_PET_NAME,
