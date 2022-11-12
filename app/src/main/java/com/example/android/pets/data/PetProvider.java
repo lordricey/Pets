@@ -48,7 +48,9 @@ public class PetProvider extends ContentProvider {
 
                 break;
             case PET_ID:
+                System.out.println(selection);
                 selection = PetContract.PetEntry._ID + "=?";
+                System.out.println(selection);
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
 
                 cursor = database.query(PetContract.PetEntry.TABLE_NAME, projection, selection, selectionArgs,
@@ -83,7 +85,8 @@ public class PetProvider extends ContentProvider {
             throw new IllegalArgumentException("Pet requires a name");
         }
 
-        if (gender == null || PetContract.PetEntry.isValidGender(gender)) {
+        if (gender == null || !PetContract.PetEntry.isValidGender(gender)) {
+            Log.v("test", ""+ gender);
             throw new IllegalArgumentException("Pet requires valid gender");
         }
 
@@ -151,12 +154,8 @@ public class PetProvider extends ContentProvider {
         return database.update(PetContract.PetEntry.TABLE_NAME, values, selection, selectionArgs);
     }
 
-    /**
-     * Delete the data at the given selection and selection arguments.
-     */
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        // Get writeable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
         final int match = sUriMatcher.match(uri);
@@ -172,11 +171,16 @@ public class PetProvider extends ContentProvider {
         }
     }
 
-    /**
-     * Returns the MIME type of data for the content URI.
-     */
     @Override
     public String getType(Uri uri) {
-        return null;
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case PETS:
+                return PetContract.PetEntry.CONTENT_LIST_TYPE;
+            case PET_ID:
+                return PetContract.PetEntry.CONTENT_ITEM_TYPE;
+            default:
+                throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
+        }
     }
 }

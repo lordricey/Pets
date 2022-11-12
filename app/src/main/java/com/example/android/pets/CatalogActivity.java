@@ -39,7 +39,7 @@ public class CatalogActivity extends AppCompatActivity {
 
         values.put(PetEntry.COLUMN_PET_NAME, "Toto");
         values.put(PetEntry.COLUMN_PET_BREED, "Terrier");
-        values.put(PetEntry.COLUMN_PET_GENDER, "Male");
+        values.put(PetEntry.COLUMN_PET_GENDER, "1");
         values.put(PetEntry.COLUMN_PET_WEIGHT, "7kg");
 
         Uri newUri = getContentResolver().insert(PetEntry.CONTENT_URI, values);
@@ -107,7 +107,7 @@ public class CatalogActivity extends AppCompatActivity {
                 insertPet();
                 return true;
             case R.id.action_delete_all_entries:
-                // Do nothing for now
+                //
                 return true;
         }
         return super.onOptionsItemSelected(item);
